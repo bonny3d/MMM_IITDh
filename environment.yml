@@ -1,0 +1,17 @@
+name: Conda Atomic Simulation Environment
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - scipy
+  - psutil
+  - toolz
+  - matplotlib
+  - dill
+  - pandas
+  - partd
+  - bokeh
+  - dask
+  - ase
+  - phonopy
+  - lammps
