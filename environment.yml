@@ -15,3 +15,4 @@ dependencies:
   - ase
   - phonopy
   - lammps
+  - jupyter_contrib_nbextensions
