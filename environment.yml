@@ -13,6 +13,7 @@ dependencies:
   - bokeh
   - dask
   - ase
+  - nglview
   - phonopy
   - lammps
   - jupyter_contrib_nbextensions
