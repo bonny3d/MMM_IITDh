@@ -10,7 +10,7 @@ dependencies:
   - bokeh
   - dask
   - matplotlib
-  - texlive-core
+  - texlive
   - numpy
   - scipy
   - ase
