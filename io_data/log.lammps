@@ -1,0 +1,101 @@
+LAMMPS (23 Jun 2022)
+# 2d Lennard-Jones melt
+
+variable    x index 1
+variable    y index 1
+variable    z index 1
+
+variable    xx equal 40*$x
+variable    xx equal 40*1
+variable    yy equal 20*$y
+variable    yy equal 20*1
+variable    zz equal 20*$z
+variable    zz equal 20*1
+
+units        lj
+atom_style    atomic
+dimension 2
+
+lattice        hex 0.8442 #Set the lattice vector
+Lattice spacing in x,y,z = 1.1695317 2.0256884 1.1695317
+region        box block 0 ${xx} 0 ${yy} 0 1 # Make region for the periodic box
+region        box block 0 40 0 ${yy} 0 1 
+region        box block 0 40 0 20 0 1 
+region        two block 5 15 5 15 0 1 # Make a region for where the atoms will begin
+create_box    1 box
+Created orthogonal box = (0 0 0) to (46.781269 40.513768 1.1695317)
+  1 by 1 by 1 MPI processor grid
+create_atoms    1 region two # Create the atoms
+Created 210 atoms
+  using lattice units in orthogonal box = (0 0 0) to (46.781269 40.513768 1.1695317)
+  create_atoms CPU = 0.000 seconds
+mass        1 1.0
+
+velocity    all create 1.44 87285 loop geom # Set their initial velocity which will be scaled during the simulation
+
+pair_style    lj/cut 2.5 # Define the intermolecular interaction with the Lennard-Jones function with a cutoff of 2.5
+pair_coeff    1 1 1.0 1.0 2.5 # Setting the sigma and epsilon values
+
+# This neighbor list improves the efficiency of the calculation by only calculating interactions with particles within cutoff+0.3
+neighbor    0.3 bin
+neigh_modify    delay 0 every 20 check no
+
+#dump    1    all xyz 200 io_data/dump.lj #movie 200 io_data/movie.avi #xyz 200 io_data/dump.lj #Saves the trajectory to a file to open in VMD
+dump    1    all movie 10000 io_data/movie.gif type type
+
+fix        1 all nve # Performs an integration to move the sample through time
+fix        2 all enforce2d # Make sure there is no forces in the z direction
+fix        3 all temp/rescale 1 1.0 0.2 0.02 0.5 # This rescales the velocity to keep the temperature constant.
+run        1000000 #run for this number of steps the default timestep for lj is 0.005 tau
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update every 20 steps, delay 0 steps, check no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 2.8
+  ghost atom cutoff = 2.8
+  binsize = 1.4, bins = 34 29 1
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/2d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 2.806 | 2.806 | 2.806 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   1.44          -2.7882119      0             -1.3550691     -0.21608417   
+   1000000   0.19107292    -2.8626926      0             -2.6725295     -0.040101179  
+Loop time of 18.5598 on 1 procs for 1000000 steps with 210 atoms
+
+Performance: 23276128.569 tau/day, 53879.927 timesteps/s
+48.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 6.1074     | 6.1074     | 6.1074     |   0.0 | 32.91
+Neigh   | 1.1855     | 1.1855     | 1.1855     |   0.0 |  6.39
+Comm    | 2.7018     | 2.7018     | 2.7018     |   0.0 | 14.56
+Output  | 0.82484    | 0.82484    | 0.82484    |   0.0 |  4.44
+Modify  | 4.2561     | 4.2561     | 4.2561     |   0.0 | 22.93
+Other   |            | 3.484      |            |       | 18.77
+
+Nlocal:            210 ave         210 max         210 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            188 ave         188 max         188 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:      # 2d Lennard-Jones melt
+
+variable    x index 1
+variable    y index 1
+variable    z index 1
+
+variable    xx equal 40*$x
+variable    xx equal 40*1
+variable    yy equal 20*$y
+variable    yy equal 20*1
+variable    zz equal 20*$z
+variable    zz equal 20*1
+
+units        lj
+ERROR: Units command after simulation box is defined (src/input.cpp:2012)
+Last command: units        lj
