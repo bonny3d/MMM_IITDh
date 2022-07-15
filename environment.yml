@@ -15,7 +15,6 @@ dependencies:
   - scipy
   - ase
   - nglview
-  - vmd-python
   - phonopy
   - lammps
   - jupyter_contrib_nbextensions
