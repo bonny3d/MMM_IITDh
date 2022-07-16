@@ -1,6 +1,7 @@
 name: Conda Atomic Simulation Environment
 channels:
   - conda-forge
+  - plotly
 dependencies:
   - psutil
   - toolz
@@ -11,6 +12,7 @@ dependencies:
   - dask
   - pip
   - matplotlib
+  - plotly
   - numpy
   - scipy
   - ase
